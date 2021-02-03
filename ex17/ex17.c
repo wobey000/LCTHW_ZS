@@ -11,7 +11,7 @@ struct Address {
     int id;
     int set;
     char name[MAX_DATA];
-    char email[MAX_DATA]
+    char email[MAX_DATA];
 };
 
 struct Database {
@@ -48,28 +48,28 @@ void Database_load(struct Connection *conn)
 
 struct Connection *Database_open(const char *filename, char mode)
 {
-    struct Connection *conn = malloc(sizeof(Connection));
+    struct Connection *conn = malloc(sizeof(struct Connection));
     if (!conn)
         die("Memory error");
 
-    conn->db = malloc(sizeof(Database));
+    conn->db = malloc(sizeof(struct Database));
     if (!conn->db)
         die("Memory error");
 
-        if (mode == 'c') {
-            conn->file = fopen(filename, "w");
-        } else {
-            conn->file = fopen(filename, "r+");
+    if (mode == 'c') {
+        conn->file = fopen(filename, "w");
+    } else {
+        conn->file = fopen(filename, "r+");
 
-            if (conn->file) {
-                Database_load(conn);
-            }
+        if (conn->file) {
+            Database_load(conn);
         }
+    }
 
-        if (!conn->file)
-            die("Failed to open the file");
+    if (!conn->file)
+        die("Failed to open the file");
 
-        return conn;
+    return conn;
 }
 
 void Database_close(struct Connection *conn)
@@ -139,7 +139,7 @@ void Database_get(struct Connection *conn, int id)
 
 void Database_delete(struct Connection *conn, int id)
 {
-    struct Address addr = {.id = id, set = 0 };
+    struct Address addr = {.id = id, .set = 0 };
 }
 
 void Database_list(struct Connection *conn)
